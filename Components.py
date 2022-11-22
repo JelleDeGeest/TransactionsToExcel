@@ -13,6 +13,7 @@ class GUI:
 
     def set_up_visuals(self):
         self.window = tk.Tk()
+        self.window.title("TransactionsToExcel")
         self.window.geometry("1200x800")
         def on_closing():
             self.aborted[0] = True
@@ -30,18 +31,26 @@ class GUI:
         frm_information.columnconfigure(1, weight=1)
         frm_information.rowconfigure(0, weight=1)
         frm_information.rowconfigure(1, weight=1)
+        frm_information.rowconfigure(2, weight=3)
+        frm_information.rowconfigure(3, weight=3)
 
+        #Setting up information label
+
+        self.lbl_date = tk.Label(master=frm_information, text="", font=("Arial",20))
+        self.lbl_date.grid(row=0, column=0, padx=5, sticky="W")
+        self.lbl_bedrag = tk.Label(master=frm_information, text="", font=("Arial",20))
+        self.lbl_bedrag.grid(row=1, column=0, padx=5, sticky="W")
 
         #Setting up naam
         self.naam_state = LOCKED
 
         self.lbl_naam = tk.Label(master=frm_information, text=self.current_naam, font=("Arial",25))
-        self.lbl_naam.grid(row=0, column=0, padx=5, sticky="W")
+        self.lbl_naam.grid(row=2, column=0, padx=5, sticky="W")
 
         self.ent_naam = tk.Entry(master=frm_information, font=("Arial",25))
 
         self.btn_naam = tk.Button(master=frm_information, text="Edit", command= self.edit_Naam, font=("Arial",18), padx=50)
-        self.btn_naam.grid(row=0, column=1, padx=20, sticky="E")
+        self.btn_naam.grid(row=2, column=1, padx=20, sticky="E")
 
 
         #Setting up beschrijving
@@ -50,10 +59,10 @@ class GUI:
         self.ent_beschrijving = tk.Entry(master=frm_information, font=("Arial",25))
 
         self.lbl_beschrijving = tk.Label(master=frm_information, text=self.current_beschrijving, font=("Arial",25))
-        self.lbl_beschrijving.grid(row=1, column=0, padx=5, sticky="W")
+        self.lbl_beschrijving.grid(row=3, column=0, padx=5, sticky="W")
 
         self.btn_beschrijving = tk.Button(master=frm_information, text="Edit", command= self.edit_Beschrijving, font=("Arial",18), padx=50)
-        self.btn_beschrijving.grid(row=1, column=1, padx=20, sticky="E")
+        self.btn_beschrijving.grid(row=3, column=1, padx=20, sticky="E")
 
 
 
@@ -109,6 +118,15 @@ class GUI:
             else:
                 self.lbl_naam['text'] = self.transactions[self.id][3]
                 self.lbl_beschrijving['text'] = self.transactions[self.id][4]
+        self.lbl_date['text'] = self.transactions[self.id][0]
+        self.lbl_bedrag['text'] =  "€ " + self.transactions[self.id][1]
+        if float(self.transactions[self.id][1]) > 0:
+            self.lbl_bedrag['foreground'] = "green"
+        elif float(self.transactions[self.id][1]) < 0:
+            self.lbl_bedrag['foreground'] = "red"
+        else:
+            self.lbl_bedrag['foreground'] = "black"
+        
 
         
 
@@ -118,7 +136,7 @@ class GUI:
             self.lbl_naam.grid_forget()
             self.ent_naam.delete(0,tk.END)
             self.ent_naam.insert(0, self.transactions[self.id][3])
-            self.ent_naam.grid(row=0, column=0, padx=5, sticky="EW")
+            self.ent_naam.grid(row=2, column=0, padx=5, sticky="EW")
             self.btn_naam['text'] = "Save"
             self.naam_state = EDIT
             self.naam_beschr_check()
@@ -126,7 +144,7 @@ class GUI:
             self.ent_naam.grid_forget()
             self.transactions[self.id][3] = self.ent_naam.get()
             self.lbl_naam['text'] = self.transactions[self.id][3]
-            self.lbl_naam.grid(row=0, column=0, padx=5, sticky="W")
+            self.lbl_naam.grid(row=2, column=0, padx=5, sticky="W")
             self.btn_naam['text'] = "Edit"
             self.naam_state = LOCKED
             self.naam_beschr_check()
@@ -137,7 +155,7 @@ class GUI:
             self.lbl_beschrijving.grid_forget()
             self.ent_beschrijving.delete(0,tk.END)
             self.ent_beschrijving.insert(0, self.transactions[self.id][4])
-            self.ent_beschrijving.grid(row=1, column=0, padx=5, sticky="EW")
+            self.ent_beschrijving.grid(row=3, column=0, padx=5, sticky="EW")
             self.btn_beschrijving['text'] = "Save"
             self.beschrijving_state = EDIT
             self.naam_beschr_check()
@@ -145,7 +163,7 @@ class GUI:
             self.ent_beschrijving.grid_forget()
             self.transactions[self.id][4] = self.ent_beschrijving.get()
             self.lbl_beschrijving['text'] = self.transactions[self.id][4]
-            self.lbl_beschrijving.grid(row=1, column=0, padx=5, sticky="W")
+            self.lbl_beschrijving.grid(row=3, column=0, padx=5, sticky="W")
             self.btn_beschrijving['text'] = "Edit"
             self.beschrijving_state = LOCKED
             self.naam_beschr_check()

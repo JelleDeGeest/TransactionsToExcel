@@ -100,22 +100,7 @@ for transaction_id in range(len(transactions)):
         transactions[transaction_id][4] = " ".join(discription[1:]).upper()
     else:
         transactions[transaction_id].append("")
-        # ready = False
-        # transaction_graphic = draw.Transaction(transaction, screen)
-        # while not ready:
-        #     for event in pg.event.get():
-        #         if event.type == pg.QUIT:
-        #             ready = True
-        #             aborted = True
-        #         elif event.type == pg.MOUSEBUTTONDOWN:
-        #             x,y = pg.mouse.get_pos()
-        #             sheetname = buttons.click(x, y)
-        #             if sheetname != None:
-        #                 ready = True 
-        #     screen.fill((255, 255, 255))
-        #     transaction_graphic.draw()
-        #     buttons.draw()
-        #     pg.display.update()
+
 gui = cmp.GUI()
 gui.run(sheetnames, transactions, aborted)
 if aborted[0]:
