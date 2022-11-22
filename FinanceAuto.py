@@ -1,16 +1,9 @@
-import os
-from re import A
-import sys
-import glob
 import csv
 import openpyxl
-import pygame as pg
 import Components as cmp
 from tkinter import filedialog as fd
-import time
 
-# Constants
-aborted = [False]
+
 # Opening file explorer to select document
 file_path = fd.askopenfilename(title ='Select Finance Document', filetypes=[('Excel files', '*.xlsx')])
 if(file_path == ""):
@@ -71,24 +64,6 @@ transactie_row = 1
 while sheet.cell(transactie_row,1).value != None:
         transactie_row += 1
 
-#Setting up the GUI to manually sort unidentified transaction
-
-
-
-
-
-# pg.init()
-# screen = pg.display.set_mode((1400,800))
-# pg.display.set_caption("Automated Finances")
-# screen.fill((255, 255, 255))
-# pg.display.update()
-
-# while(len(transactions) == 0):
-#     screen.fill((255, 255, 255))
-#     pg.display.update()
-
-#Create a list of buttons to choose the right sheetname
-# buttons = draw.Buttons(sheetnames, screen)
 
 #Processing the transactions that have a valid abreviation
 transactions = transactions[::-1]
@@ -102,9 +77,7 @@ for transaction_id in range(len(transactions)):
         transactions[transaction_id].append("")
 
 gui = cmp.GUI()
-gui.run(sheetnames, transactions, aborted)
-if aborted[0]:
-    exit()
+gui.run(sheetnames, transactions)
 for transaction in transactions:
     #Addding to the sheet
     sheet = wb[transaction[5]]

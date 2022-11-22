@@ -1,4 +1,5 @@
 import tkinter as tk
+from sys import exit
 
 LOCKED = 0
 EDIT = 1
@@ -16,8 +17,8 @@ class GUI:
         self.window.title("TransactionsToExcel")
         self.window.geometry("1200x800")
         def on_closing():
-            self.aborted[0] = True
             self.window.destroy()
+            exit()
         self.window.protocol("WM_DELETE_WINDOW", on_closing)
 
         self.window.columnconfigure(0, weight=1)
@@ -86,10 +87,9 @@ class GUI:
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
     
-    def run(self, sheetnames, transactions, aborted):
+    def run(self, sheetnames, transactions):
         self.transactions = transactions
         self.sheetnames = sheetnames
-        self.aborted = aborted
         self.initialize_buttons()
         if self.start_process():
             self.window.mainloop()
